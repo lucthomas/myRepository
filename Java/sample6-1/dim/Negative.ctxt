@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=pic
+comment0.target=Negative(Picture)
+comment1.params=
+comment1.target=Picture\ getNegative()
+comment1.text=\r\n\ Method\ to\ make\ the\ negative\ of\ a\ picture.\r\n\r\n\ @param\ picture\ \r\n
+numComments=2

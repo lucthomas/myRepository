@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	</head>
+	<body>
+		<canvas id="c" width="1000" height="1000"></canvas>
+
+		<script>
+			var c = document.querySelector("#c"); //link script with canvas with id = "c"
+			var ctx = c.getContext("2d"); //the canvas c is chosen to be in 2d
+
+			ctx.save(); //Save this current state (default)
+
+			ctx.translate(200,0); //Translate what you're planning to draw
+
+			degrees = 45;
+			radians = degrees*(Math.PI/180);
+			ctx.rotate(radians); //Rotate what you're planning to draw
+
+			ctx.scale(2,2); //Scale what you're planning to draw - 2 times x and 2 times y
+
+			//ctx.fillStyle = "blue"; //Give your chosen color
+
+			ctx.strokeRect(50,50,100,100);
+			ctx.moveTo(75,75);
+			ctx.lineTo(125,75);
+			ctx.lineTo(125,125);
+			ctx.lineTo(75,75);
+			ctx.fill();
+			//ctx.stroke();
+
+			ctx.restore(); //Restore to the default state before you start drawing again
+
+		</script>
+	</body>
+</html>

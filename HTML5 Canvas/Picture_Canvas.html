@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	</head>
+	<body>
+		<canvas id="c" width="200" height="200"></canvas>
+
+		<script>
+			var c = document.querySelector("#c"); //link script with canvas with id = "c"
+			var ctx = c.getContext("2d"); //the canvas c is chosen to be in 2d
+
+			var image = new Image(); //Create a new image
+			image.onload = function(){ 
+				console.log("Loaded image"); //while the image is loading
+				//doSomethingElse();
+				ctx.drawImage(image, 0, 0, c.width, c.height); //draw the image in the canvas
+				//ctx.drawImage(imagetobedrawn, x_startpoint canvas, y_startpoint canvas, canvas width, canvas height) OR
+				//ctx.drawImage(imagetobedrawn, x_sp image, y_sp image, widthOfImage, heightOfImage, x_sp canvas, y_sp canvas, canvas width, canvas height)
+			};
+			image.src = "Profile_2017.png";
+		</script>
+	</body>
+</html>

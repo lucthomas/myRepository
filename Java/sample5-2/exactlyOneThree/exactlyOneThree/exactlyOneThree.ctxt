@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=exactlyOneThree()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ exactlyOneThree\r\n
+comment1.params=x\ y
+comment1.target=void\ exactlyOneThree(int,\ int)
+comment1.text=\r\n\ Method\ looks\ whether\ we\ have\ exactly\ one\ dice\ with\ a\ three\ on\ it\r\n\ \r\n\ @param\ \ y\ \ \ a\ dice\ number\r\n\ @param\ \ x\ \ \ a\ dice\ number\ \r\n
+numComments=2

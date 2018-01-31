@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.params=fileName
+comment0.target=Book(java.lang.String)
+comment1.params=
+comment1.target=java.lang.String\ getFirstSentence()
+comment1.text=\r\n\ Gets\ the\ first\ sentence\ of\ this\ book.\r\n\ @return\ the\ first\ sentence\ (including\ the\ period)\ of\ this\ book.\r\n
+comment2.params=
+comment2.target=java.lang.String\ getSecondSentence()
+comment2.text=\r\n\ Gets\ the\ second\ sentence\ of\ this\ book.\r\n\ @return\ the\ second\ sentence\ (including\ the\ period)\ of\ this\ book.\r\n
+comment3.params=word
+comment3.target=int\ occurrencesOf(java.lang.String)
+comment3.text=\r\n\ Counts\ how\ many\ times\ a\ given\ word\ occurs\ in\ this\ book.\r\n\ @param\ word\ a\ word\ of\ length\ >\=\ 1\r\n\ @return\ the\ number\ of\ occurrences\r\n
+comment4.params=
+comment4.target=int\ getNumCharacters()
+comment4.text=\r\n\ Calculates\ the\ number\ of\ characters\ (as\ in\ letters\ and\r\n\ symbols,\ not\ people)\ in\ the\ book.\r\n\ @return\ the\ number\ of\ letters\ and\ symbols\ in\ the\ book.\r\n
+comment5.params=word
+comment5.target=int\ firstOccurrenceOf(java.lang.String)
+comment6.params=fileName
+comment6.target=void\ readBook(java.lang.String)
+comment6.text=\r\n\ A\ method\ to\ help\ read\ the\ book\ out\ of\ the\ file.\r\n\ You\ don't\ have\ to\ read\ this\ unless\ you\ want\ to.\r\n\ the\ "try"\ and\ "catch"\ are\ java's\ way\ of\ dealing\ with\r\n\ runtime\ errors\ or\ "exceptions".\r\n
+numComments=7

@@ -1,0 +1,128 @@
+/*We use flex to ensure that blocks that don't fit in the window drop down*/
+.content {
+  display:flex;
+  flex-wrap: wrap;
+}
+/*We make sure the hamburger menu made in html is not displayed*/
+.header__menu {
+  display: none;
+}
+/*We make sure that all divs have a large order, such that we can easily order divs later on*/
+.hero, .top-news, .scores, .weather, .recent-news {
+  order: 10;
+}
+
+p {
+  max-width: 575px;
+}
+/*Media query: devices with max-width: 543px - BREAKPOINT 1*/
+@media screen and (max-width: 543px) {
+  .header__logo {
+    height:48px;
+    margin-right: 0.5em;
+  }
+  .header__title {
+    font-size: 2em;
+    vertical-align: bottom;
+
+  }
+  .header__menu {
+    display:inline-block;
+    width: 32px;
+    position: absolute;
+    padding: 1em;
+    right: 0;
+    fill: #9E9E9E;
+  }
+  .nav {
+    z-index: 10;
+    /*The z-index property specifies the stack order of an element. It ensures that nav bar comes to the front of the screen.
+    An element with greater stack order is always in front of an element with a lower stack order.
+    Note: z-index only works on positioned elements (position:absolute, position:relative, or position:fixed).*/
+    background-color: #fff;
+    width: 100%;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(0, -25em);
+    transform: translate(0, -25em);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0s ease;
+  }
+  /*Without nav__item class modification we would have a horizontal menu rahter than a listed vertical dropdown menu*/
+  .nav__item {
+    display: list-item;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+  }
+  /*Use .nav.open to give instructions as what to do when clicking the hamburger menu*/
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  .hero {
+    margin-top: 0.15em;
+  }
+}
+
+/*Media query: devices with min-width: 544px - BREAKPOINT 2*/
+@media screen and (min-width: 544px) and (max-width: 799px) {
+  .header__title {
+    margin:0.5em 0.25em 0em 0.25em;
+  }
+  .hero {
+    width: 67%;
+    order: 0;
+  }
+  .weather {
+    width: 33%;
+    order: 1;
+  }
+}
+
+/*Media query: devices with min-width: 425px - BREAKPOINT 3*/
+@media screen and (min-width: 425px) {
+  footer a {
+  font-size: 15px;
+  }
+}
+/*Media query: devices with max-width: 425px - BREAKPOINT 4*/
+@media screen and (max-width: 425px) {
+  .color {
+    display:none;
+  }
+}
+/*Media query: devices with min-width: 800px - BREAKPOINT 5*/
+@media screen and (min-width: 800px) {
+  .content, .nav, .recent-news, footer{
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .header {
+    box-shadow: 0 2px rgba(0, 0, 0, 0.26);
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .header__title {
+    margin:0.5em 0.25em 0em 0.25em;
+  }
+  .hero {
+    width: 67%;
+    order: 0;
+  }
+  .top-news {
+    width: 33%;
+    order: 1;
+  }
+  .scores {
+    width: 67%;
+    order: 2;
+  }
+  .weather {
+    width: 33%;
+    order: 3;
+  }
+}

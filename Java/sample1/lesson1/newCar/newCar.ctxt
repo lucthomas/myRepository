@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.params=
+comment0.target=newCar()
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=d\ mpg\ ppg\ bp
+comment2.target=int\ totalActualCarCost(int,\ int,\ int,\ int)
+comment2.text=\r\n\ Method\ to\ calculate\ the\ total\ cost\ of\ a\ car\r\n\ \r\n\ @param\ d\ is\ an\ integer\ for\ the\ distance\ travelled\ by\ car\r\n\ @param\ mpg\ is\ the\ miles\ per\ gallon\ covered\r\n\ @param\ ppg\ is\ the\ price\ per\ gallon\ \r\n\ @param\ bp\ is\ the\ buy\ price\ of\ the\ car\r\n\ \r\n\ @return\ \ \ \ \ x\r\n
+numComments=3

@@ -1,0 +1,35 @@
+.app{
+    display: -webkit-flex;
+    display: flex;
+     margin-bottom: 200px;
+}
+.screenshot{
+    max-width: 460px
+}
+.description{
+    font-family: 'Roboto', sans-serif;
+    margin-left: 35px;
+    color: #7C8B88;
+    max-width: 705px;
+}
+.title{
+    font-family: 'Roboto', sans-serif;
+    background: #33BEBE;
+    color: white;
+    font-size: 4em;
+    font-weight: normal;
+    max-width: 1120px;
+    padding-left: 35px;
+    padding-top: 50px;
+    margin-top: 200px;
+}
+* {
+   /*outline: 1px solid red !important;*/
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}

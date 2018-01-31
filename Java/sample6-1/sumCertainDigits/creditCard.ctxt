@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=cardNumber
+comment0.target=creditCard(long)
+comment1.params=
+comment1.target=int\ sumOddDigits()
+comment1.text=\r\n\ Calculates\ the\ sum\ of\ every\ odd\ digit\ in\ cardNumber\ \r\n\ starting\ from\ the\ rightmost\ digit.\r\n\ @return\ the\ sum\ of\ every\ odd\ digit\ starting\ from\ the\ rightmost.\r\n
+numComments=2
