@@ -18,8 +18,8 @@ import java.util.Scanner;
  * 
  * - Verandert er iets als 'n' heel hoog kan zijn?
  *   Als n zeer groot is, kunnen de coefficiënten zeer groot worden. Het is dan mogelijk dat de coefficiënten het maximum 2^31 - 1 overschreiden (int: 32-bit integer).
- *   In dat geval is het beter om te kiezen voor een long[] data-structuur (long: 64-bit integer - maximum: 2^63 - 1). Verder kan het maximum van n ook vergroot worden
- *   door n een long data-structuur te geven.
+ *   In dat geval is het beter om te kiezen voor een long[] data-structuur (long: 64-bit integer - maximum: 2^63 - 1).
+ *   Indien n zelf zeer groot is, kan men n initialiseren als een long data-structuur.
  * 
  * @author Luc Thomas
  * @version v0.1 04-02-2018
@@ -133,7 +133,7 @@ public class Polynomial
     public Polynomial diff()
     {
         if(graad == 0) {
-            Polynomial zero = new Polynomial(0,0);
+            Polynomial zero = new Polynomial(0,1);
             zero.coeff[0] = 0;
             return zero;
         }
@@ -165,13 +165,30 @@ public class Polynomial
     }
     
     /**
+     * Methode 
+     * 
+     * Het beeld van de veelterm p
+     * @param x    het gekozen bereik van de veelterm p
+     * @return     het berekende beeld van de veelterm p
+     */
+    public int calculate(int x)
+    {
+        int p = 0;
+        for(int i = 0; i <= graad; i++) {
+            p += coeff[i] * (int)(Math.pow(x,i));
+        }
+        System.out.println("Het beeld van de veelterm voor gekozen bereik " + x + " is: " + p);
+        return p;
+    }
+    
+    /**
      * Test de veelterm en zijn afgeleiden
      *
      * @param args argumenten ingegeven in de CLI
      */
     public static void main(String[] args) { 
         Polynomial veelterm = new Polynomial(3,0);
-        veelterm.diff();
-        veelterm.derive(3);
+        veelterm.calculate(6);
+        veelterm.derive(1).calculate(2);
     }
 }
