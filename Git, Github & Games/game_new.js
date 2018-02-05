@@ -1,5 +1,7 @@
 // Canvas Asteroids
 //
+// Copyright (c) 2010 Doug McInnes
+// Edited by 2017 Luc Thomas
 //
 
 KEY_CODES = {
