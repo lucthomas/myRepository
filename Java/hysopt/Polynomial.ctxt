@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=m\ voa
+comment0.target=Polynomial(int,\ int)
+comment0.text=\r\n\ Initialisatie\ van\ een\ nieuwe\ 1-dimensionale\ veelterm\ onder\ de\ vorm\ am.x^m\ +\ ...\ +\ a1.x^1\ +\ a0\ \r\n\ @param\ m\ het\ hoogst\ mogelijke\ exponent\ van\ de\ veelterm\r\n\ @param\ voa\ staat\ voor\ 'veelterm\ of\ afgeleide\ veelterm\ -\ voa\ \=\ 0\ komt\ overeen\ met\ de\ veelterm\ en\ voa\ \=\ 1\ met\ de\ n-de\ afgeleide\ veelterm\r\n\ @throws\ IllegalArgumentException\ als\ {@code\ m}\ negatief\ is\r\n
+comment1.params=
+comment1.target=void\ simplify()
+comment1.text=\r\n\ Methode\r\n\ \r\n\ Vereenvoudig\ de\ veelterm\ door\ leidende\ termen\ met\ coeffici\u00EBnten\ met\ waarde\ nul\ weg\ te\ laten\r\n
+comment2.params=
+comment2.target=java.lang.String\ toPolynomialString()
+comment2.text=\r\n\ Methode\r\n\ \r\n\ Voorstelling\ van\ de\ veelterm\ met\ string\ data-type\ onder\ de\ vorm\ am.x^m\ +\ ...\ +\ a1.x^1\ +\ a0\r\n\ @return\ voorstelling\ van\ de\ veelterm\ met\ string\ data-structuur\ onder\ de\ vorm\ am.x^m\ +\ ...\ +\ a1.x^1\ +\ a0\r\n
+comment3.params=
+comment3.target=Polynomial\ diff()
+comment3.text=\r\n\ Methode\ \r\n\ \r\n\ De\ eerste\ afgeleide\ van\ de\ veelterm\r\n\ @return\ \ \ \ \ de\ eerste\ afgeleide\ van\ de\ veelterm\r\n
+comment4.params=n
+comment4.target=Polynomial\ derive(int)
+comment4.text=\r\n\ Methode\ \r\n\ \r\n\ De\ n-de\ afgeleide\ van\ de\ veelterm\r\n\ @param\ n\ \ \ \ het\ aantal\ keer\ dat\ een\ veelterm\ wordt\ afgeleid\r\n\ @return\ \ \ \ \ de\ n-de\ afgeleide\ van\ de\ veelterm\r\n
+comment5.params=args
+comment5.target=void\ main(java.lang.String[])
+comment5.text=\r\n\ Test\ de\ veelterm\ en\ zijn\ afgeleiden\r\n\r\n\ @param\ args\ argumenten\ ingegeven\ in\ de\ CLI\r\n
+numComments=6
