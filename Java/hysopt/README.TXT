@@ -15,7 +15,7 @@ HOW TO START THIS PROJECT:
 Call for the Polynomial class. The inputs are: 
 1. m: the highest possible exponent of the polynomial.
 2. voa: an indicator determining whether the input is a polynomial or a derived polynomial.
-	The polynomial indicator is 0, while de derived polynomial indicator is 1.
+	The polynomial indicator is 0, while the derived polynomial indicator is 1.
 
 AUTHOR: Luc Thomas
 
