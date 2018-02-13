@@ -1,0 +1,179 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\small\ttfamily,
+  breaklines=true,
+  columns=fullflexible
+}
+
+\newcommand{\jpeg}[3]{
+	\begin{figure}
+	  \centering
+	  \includegraphics[width=10cm]{#1}
+	  \caption{#2}
+	  \label{#3}
+	\end{figure}
+}
+
+
+\begin{document}
+
+\section{Introductie}
+
+Het \emph{thermisch} deelprobleem van de Hysopt software buigt zich over de propagatie van temperaturen doorheen een verwarmingssysteem. Het bekijkt de verschillende (vloeistof) temperaturen in de leidingen doorheen het systeem, gegeven enkele \emph{gekende} temperaturen (bijvoorbeeld een temperatuur in een buffervat, een temperatuur van het watervolume van een ketel, \ldots) en de debieten die door een systeem vloeien. Deze opdracht bestaat erin om een stuk software te bouwen dat, gegeven een topologie van een netwerk en enkele vaste temperaturen, de temperaturen op alle plaatsen in het netwerk doorrekend.
+
+
+\section{De \emph{graph}}
+
+Input voor de te bouwen softwarecomponent is een \emph{graph} structuur die het systeem voorstelt. Edges zijn stukken leiding, waarop al dan niet een temperatuur gekend is, of een lineair verband tussen de temperaturen aan de uiteinden van de leiding. Nodes zijn punten waarop deze leidingsegmenten aan elkaar zijn gezet. In geval van knooppunten met twee leidingen, wordt de temperatuur gewoon doorgegeven, in geval van 3 of meer leidingen treedt mogelijk een (temperatuurs)menging op. In elke node komen ofwel twee, ofwel 3 edges toe. Alle nodes en edges hebben een naam (\verb|node0001| resp. \verb|edge0001|). Nodes hebben geen verdere gegevens, edges verbinden exact twee nodes, en hebben een type temperatuursverband over de edge. In figuur \ref{fig:ex} zie je een voorbeeld van het bestandsformaat waarin deze gegevens worden aangeleverd. De \verb|[NODES]| sectie bevat een oplijsting van de node namen. De \verb|[EDGES]| sectie bevat een oplijsting van de edges, in het formaat \verb|<naam> <node1> <node2> <temperatuurverband>|. De waarden voor \verb|<temperatuurverband>| zijn als volgt:
+\begin{itemize}
+	\item \verb|NONE|: deze edge wijzigt de temperatuur niet, de temperatuur aan beide uiteindes van de edge (leiding) is gelijk
+	\item \verb|OUT(<variable>)|: van deze edge is de temperatuur gekend aan de kant dat er water \emph{uit} de edge stroomt. Deze gekende temperatuur wordt gegeven door een variabele (zie verder)
+	\item \verb|LOSS(<ua-value>,<ambient-temperature>)|: deze edge verliest warmte aan of neemt warmte op uit de \emph{omgeving}. Dit verband wordt gegeven door de formule \ref{form:loss}.
+\end{itemize}
+
+\begin{equation} \label{form:loss}
+(T_\textrm{in} - T_\textrm{out}) c \dot{m} = (T_\textrm{in} - T_\textrm{ambient}) c \dot{m} \left( 1 - \exp^{-\dfrac{UA}{ |c \dot{m}|}} \right) 
+\end{equation}
+Hierbij is $\dot{m}$ het debiet door de leiding (in kg/s), $c$ de soortelijke warmtecapaciteit van water (neem 4186 J/kg/K), $UA$ de warmteverliescoëfficiënt (in W/K). $T_\textrm{in}$ is de temperatuur aan de kant waar debiet binnenkomt in het leidingsegment, $T_\textrm{out}$ is de temperatuur aan de andere kant van het leidingsegment. $T_\textrm{ambient}$ en $UA$ zijn constanten en worden meegegeven in de inputfile.
+
+\section{De variabelen en debieten}
+
+Voor verschillende tijdstappen geven we in het invoerbestand de debieten en waarden voor de variabelen op (de topologische graphstructuur en temperatuurverbanden blijven constant). In de \verb|[VARIABLES-nnn]| sectie zijn de waarden van de variabelen voor de \verb|OUT(<variable>)| edges te vinden. Het formaat van deze lijnen is \verb|<variabele> <waarde>|. De \verb|[MASSFLOWS-nnn]| sectie geeft voor elke edge het debiet. Het formaat van deze lijnen is \verb|<edgenaam> <debiet>|, waarbij een positieve debietwaarde wil zeggen dat het debiet stroomt van de eerste naar de tweede node (zoals gedefinieerd in de \verb|[EDGES]| sectie), en een negatieve debietwaarde wil zeggen dat het debiet stroomt van de tweede naar de eerste node. Het debiet is steeds in kg/s (massadebiet).
+
+Ter controle is in de \verb|[VALIDATION-nnn]| sectie een mogelijke oplossing voor het temperatuurprobleem gegeven. Laat het duidelijk zijn dat deze \emph{niet} gebruikt mag worden in de oplossing, maar enkel ter controle dient. De lijnen in deze sectie hebben het formaat \verb|<edgenaam> <in-temperatuur> <out-temperatuur>| waarbij de temperaturen die zijn waar het water binnenkomt, en waar het water uit de leiding buitengaat, respectievelijk.
+
+Er zijn mogelijk meerdere tripletten van variabelen, massflows en validatiedata voorzien, om het mogelijk te maken in verschillende scenario's hetzelfde systeem te testen.
+
+\section{Mogelijke oplosmethode}
+
+Zonder een oplosmethode te willen opleggen, dienen we toch een suggestie aan, dewelke je vrij bent te volgen. Eerst introduceren we alvast de terminologie van verdeel- en mengpunten.
+
+Knooppunten waar 3 leidingsegmenten samenkomen, kunnen ofwel een \emph{verdeelpunt} (één binnenkomend en twee uitgaande debieten) of een \emph{mengpunt} (twee binnenkomende en één uitgaand debiet) zijn. In een verdeelpunt zijn alle temperaturen van de leidingsegmenten gelijk, in een mengpunt is de uitgaande temperatuur een gewogen gemiddelde volgens debiet. Een mengpunt heeft dus één enkele vergelijking, een verdeelpunt heeft twee vergelijkingen. Indien het systeem correct is opgebouwd, zijn het aantal meng- en verdeelpunten in balans, en komen het aantal vergelijkingen en het aantal variabelen mooi in overeenstemming.
+
+Voor elke edge kennen we twee variabelen toe, één aan elke kant van de edge. De variabelen stellen de temperaturen voor aan die kant van de edge. Dit wil dus zeggen dat we $2n$ variabelen definiëren, met $n$ het aantal edges in de graph. Voor elke node stellen we volgende vergelijkingen op:
+\begin{itemize}
+	\item Nodes met twee edges: Eén vergelijking, namelijk de temperatuur aan het uiteinde van edge 1 dat aan deze node ligt, is gelijk aan de temperatuur aan het uiteinde van edge 2 dat aan deze node ligt.
+	\item Nodes met drie edges, in een verdeelconfiguratie: we maken twee vergelijkingen: $T_1 = T_2 = T_3$, waarbij $T_i$ de temperatuur is aan de kant van deze node, voor de $i$-de edge.
+	\item Nodes met drie edges, in een mengconfiguratie: we maken één vergelijking: 
+	\[ \sum_{i=1}^3 \dot{m}_i T_i = 0 \] (debieten zijn hier georiënteerd van de node weg).
+\end{itemize}
+
+De manier waarop de graph is samengesteld, zorgt ervoor dat het aantal vergelijkingen steeds in balans is met het aantal nodes (het aantal meng- en verdeelnodes is steeds gelijk).
+
+Deze vergelijkingen zijn uiteraard zeer sparse (elke vergelijking raakt één of twee variabelen).
+
+\section{Voorbeeldfile}
+\label{fig:ex}
+
+\begin{lstlisting}
+[NODES]
+node0001
+node0002
+node0003
+node0004
+node0005
+node0006
+node0007
+node0008
+node0009
+node0010
+node0011
+node0012
+node0013
+node0014
+node0015
+node0016
+[EDGES]
+edge0001 node0005 node0006 NONE
+edge0002 node0005 node0007 OUT(edge0002)
+edge0003 node0008 node0009 NONE
+edge0004 node0009 node0010 OUT(edge0004)
+edge0005 node0011 node0012 NONE
+edge0006 node0014 node0015 NONE
+edge0007 node0015 node0016 OUT(edge0007)
+edge0008 node0008 node0003 NONE
+edge0009 node0010 node0004 NONE
+edge0010 node0007 node0011 NONE
+edge0011 node0006 node0013 NONE
+edge0012 node0014 node0001 NONE
+edge0013 node0016 node0002 NONE
+edge0014 node0001 node0012 NONE
+edge0015 node0002 node0013 NONE
+edge0016 node0001 node0003 NONE
+edge0017 node0002 node0004 NONE
+[VARIABLES-1]
+edge0002 75.0
+edge0004 63.832612337624305
+edge0007 63.832612337624305
+[MASSFLOWS-1]
+edge0001 -0.39749522181067387
+edge0002 0.39749522181067387
+edge0003 0.3859177688282327
+edge0004 0.3859177688282327
+edge0005 0.39749522181067387
+edge0006 0.011577452982441198
+edge0007 0.011577452982441198
+edge0008 -0.3859177688282327
+edge0009 0.3859177688282327
+edge0010 0.39749522181067387
+edge0011 -0.39749522181067387
+edge0012 -0.011577452982441198
+edge0013 0.011577452982441198
+edge0014 -0.39749522181067387
+edge0015 0.39749522181067387
+edge0016 0.3859177688282327
+edge0017 -0.3859177688282327
+[VALIDATION-1]
+edge0001 63.832612337624305 63.832612337624305
+edge0002 63.832612337624305 75.0
+edge0003 74.99999719056125 74.99999719056125
+edge0004 74.99999719056125 63.832612337624305
+edge0005 75.0 75.0
+edge0006 74.99999719056125 74.99999719056125
+edge0007 74.99999719056125 63.832612337624305
+edge0008 74.99999719056125 74.99999719056125
+edge0009 63.832612337624305 63.832612337624305
+edge0010 75.0 75.0
+edge0011 63.832612337624305 63.832612337624305
+edge0012 74.99999719056123 74.99999719056125
+edge0013 63.832612337624305 63.832612337624305
+edge0014 75.0 75.0
+edge0015 63.832612337624305 63.832612337624305
+edge0016 74.99999719056123 74.99999719056125
+edge0017 63.832612337624305 63.832612337624305
+\end{lstlisting}
+
+\section{Voorbeelden}
+
+Verschillende voorbeeldfiles zijn beschikbaar:
+\begin{itemize}
+	\item Voorbeeld 1: Enkele lus (zie afbeelding \ref{fig:ex1}).
+	\item Voorbeeld 2: Meerdere vertakkingen (zie afbeelding \ref{fig:ex2}).
+	\item Voorbeeld 3: Reverse return opstelling (zie afbeelding \ref{fig:ex3}).
+	\item Voorbeeld 4: Complex systeem.
+\end{itemize}
+
+\jpeg{Example1.JPG}{Voorbeeld 1}{fig:ex1}
+\jpeg{Example2.JPG}{Voorbeeld 2}{fig:ex2}
+\jpeg{Example3.JPG}{Voorbeeld 3}{fig:ex3}
+\jpeg{Example4.JPG}{Voorbeeld 4}{fig:ex4}
+
+\cleardoublepage
+
+\section{Moeilijkheden}
+
+Verschillende eigenaardigheden van deze probleemstelling kunnen voor moeilijkheden zorgen.
+
+\begin{itemize}
+\item Het probleem van \emph{omkerende debieten}: Wanneer debieten in een knooppunt met drie of meer leidingen omkeren (in de buurt van nul liggen, en dan door nul gaan) kan het zijn dat (door afrondingsfouten) bepaalde punten niet correct identificeerbaar zijn als meng- of verdeelpunt, waardoor de verhouding in aantal meng- en verdeelpunten in onbalans geraakt, en ook het aantal vergelijkingen in het stelsel niet klopt. 
+\item Het verwisselen van meng- en verdeelpunten in functie van de debieten zorgt ervoor dat niet alleen de coëfficiënten van het stelsel, maar ook de structuur van het stelsel wijzigt in functie van de debieten. Daardoor is het moeilijker een optimale (snelle) solver voor dit probleem te bouwen.
+\end{itemize} 
+
+\end{document}
